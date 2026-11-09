@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "description": "Fixtures for the avcpp codec send/receive tests",
+  "media": [
+    {
+      "file": "media/aac-tone-48khz-stereo.m4a",
+      "size": 25502,
+      "sha256": "fc8c368dbe8c67e730de9a853ed04e58c693e50cd400d973125edd86d4775f7e",
+      "streams": [
+        {
+          "index": 0,
+          "type": "audio",
+          "codec": "aac",
+          "sample_rate": 48000,
+          "channels": 2,
+          "packets": 95,
+          "frames": 94
+        }
+      ]
+    },
+    {
+      "file": "media/h264-baseline-320x240-25fps.mp4",
+      "size": 59469,
+      "sha256": "2959d5bc3a9dcc7d77608e487bd35dfdb17253f59c9023743212c19e6557f82e",
+      "streams": [
+        {
+          "index": 0,
+          "type": "video",
+          "codec": "h264",
+          "width": 320,
+          "height": 240,
+          "packets": 50,
+          "frames": 50
+        }
+      ]
+    },
+    {
+      "file": "media/h264-bframes-320x240-25fps.mp4",
+      "size": 54662,
+      "sha256": "d034734b9e65196682624401e596df1733f5ad9b9a902ba03b52a4c701970d55",
+      "streams": [
+        {
+          "index": 0,
+          "type": "video",
+          "codec": "h264",
+          "width": 320,
+          "height": 240,
+          "packets": 50,
+          "frames": 50
+        }
+      ]
+    },
+    {
+      "file": "media/pcm-s16le-tone-48khz-stereo.wav",
+      "size": 384044,
+      "sha256": "268618e5e95e37d235fc8b0c6cd56b8d347f3ce0b2d1a86729a3c542f6055b06",
+      "streams": [
+        {
+          "index": 0,
+          "type": "audio",
+          "codec": "pcm_s16le",
+          "sample_rate": 48000,
+          "channels": 2,
+          "packets": 24,
+          "frames": 24
+        }
+      ]
+    }
+  ]
+}
