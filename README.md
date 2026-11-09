@@ -42,8 +42,9 @@ generate.sh     regenerates media and manifest
 ```
 
 `packets` and `frames` are the values reported by `ffprobe -count_packets
--count_frames`. The avcpp tests assert the same counts when the fixtures are
-decoded through the send/receive API.
+-count_frames`. They depend on the FFmpeg build, so the avcpp tests assert them
+only where demuxers and decoders are stable across releases (video), and assert
+decoded sample totals for audio.
 
 ## Fixtures
 
