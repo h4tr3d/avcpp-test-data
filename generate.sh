@@ -12,6 +12,9 @@ cd "$(dirname "$0")"
 
 mkdir -p media
 
+work_dir="$(mktemp -d)"
+trap 'rm -rf "$work_dir"' EXIT
+
 common_video=(
     -map_metadata -1
     -fflags +bitexact
@@ -45,6 +48,38 @@ ffmpeg -y -hide_banner -loglevel error \
     -map_metadata -1 -fflags +bitexact -flags +bitexact \
     -ac 2 -c:a pcm_s16le \
     media/pcm-s16le-tone-48khz-stereo.wav
+
+# Text subtitle fixtures. The source is kept in the script so that the two
+# containers are generated from exactly the same cues.
+srt_source="$work_dir/subtitles.srt"
+cat > "$srt_source" <<'SRT'
+1
+00:00:00,500 --> 00:00:01,500
+Hello, avcpp!
+
+2
+00:00:01,500 --> 00:00:03,000
+Second subtitle line
+SRT
+
+ffmpeg -y -hide_banner -loglevel error \
+    -i "$srt_source" \
+    -map_metadata -1 -fflags +bitexact -flags +bitexact \
+    -c:s subrip \
+    media/subrip-sample.mkv
+
+ffmpeg -y -hide_banner -loglevel error \
+    -i "$srt_source" \
+    -map_metadata -1 -fflags +bitexact -flags +bitexact \
+    -c:s ass \
+    media/ass-sample.mkv
+
+# Bitmap subtitle fixture. The FFmpeg CLI cannot convert text to bitmap, so a
+# small libavcodec/libavformat tool produces the stream instead.
+bitmap_tool="$work_dir/make-bitmap-sub"
+cc -O2 -o "$bitmap_tool" tools/make-bitmap-sub.c \
+    $(pkg-config --cflags --libs libavcodec libavformat libavutil)
+"$bitmap_tool" media/dvdsub-sample.mkv
 
 python3 - <<'PY'
 import hashlib
@@ -96,7 +131,7 @@ for path in media:
 
 manifest = {
     "version": 1,
-    "description": "Fixtures for the avcpp codec send/receive tests",
+    "description": "Fixtures for the avcpp codec and subtitle tests",
     "media": entries,
 }
 (root / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")

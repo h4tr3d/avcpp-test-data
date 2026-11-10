@@ -1,7 +1,7 @@
 # avcpp-test-data
 
-Binary fixtures for the [avcpp](https://github.com/h4tr3d/avcpp) codec
-send/receive tests.
+Binary fixtures for the [avcpp](https://github.com/h4tr3d/avcpp) codec and
+subtitle tests.
 
 The fixtures are intentionally small (a few hundred kilobytes in total) and are
 checked into Git so a test run does not depend on FFmpeg encoders or on the
@@ -13,6 +13,7 @@ network.
 media/          generated media files
 manifest.json   sizes, SHA-256 digests and stream statistics
 generate.sh     regenerates media and manifest
+tools/          generators for fixtures the FFmpeg CLI cannot produce
 ```
 
 `manifest.json` describes every fixture:
@@ -43,8 +44,8 @@ generate.sh     regenerates media and manifest
 
 `packets` and `frames` are the values reported by `ffprobe -count_packets
 -count_frames`. They depend on the FFmpeg build, so the avcpp tests assert them
-only where demuxers and decoders are stable across releases (video), and assert
-decoded sample totals for audio.
+only where demuxers and decoders are stable across releases (video and
+subtitles), and assert decoded sample totals for audio.
 
 ## Fixtures
 
@@ -54,6 +55,9 @@ decoded sample totals for audio.
 | `h264-bframes-320x240-25fps.mp4` | 2 s, 50 frames, B-frames, exercises reordering and decoder delay |
 | `aac-tone-48khz-stereo.m4a` | 2 s tone; 95 packets, 94 decoded frames, exercises decoder priming |
 | `pcm-s16le-tone-48khz-stereo.wav` | 2 s tone; 24 packets, 96000 samples, no decoder delay |
+| `subrip-sample.mkv` | 2 s of SRT subtitles in Matroska; 2 packets, 2 decoded frames |
+| `ass-sample.mkv` | the same cues as ASS in Matroska; 2 packets, 2 decoded frames |
+| `dvdsub-sample.mkv` | two 64x32 DVD bitmap subtitles with a 4-colour palette; 2 packets, 2 decoded frames |
 
 ## Using the fixtures
 
@@ -90,6 +94,11 @@ my_tests = executable('my_tests', 'main.cpp',
 The script uses the FFmpeg CLI and Python 3. Regenerated files are only
 byte-identical when the same FFmpeg build is used; if the bytes change, commit
 the new media and `manifest.json` together.
+
+The bitmap subtitle fixture is produced by `tools/make-bitmap-sub.c`, because
+the FFmpeg CLI cannot convert text subtitles to bitmap subtitles. Regenerating
+therefore also requires a C compiler, `pkg-config` and the FFmpeg development
+headers for libavcodec, libavformat and libavutil.
 
 ## License
 

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "description": "Fixtures for the avcpp codec send/receive tests",
+  "description": "Fixtures for the avcpp codec and subtitle tests",
   "media": [
     {
       "file": "media/aac-tone-48khz-stereo.m4a",
@@ -15,6 +15,34 @@
           "channels": 2,
           "packets": 95,
           "frames": 94
+        }
+      ]
+    },
+    {
+      "file": "media/ass-sample.mkv",
+      "size": 1162,
+      "sha256": "c8eaf3a884dcc6a39cd81af02027dd06da4d12bb66d2aa77421cb630d3e60117",
+      "streams": [
+        {
+          "index": 0,
+          "type": "subtitle",
+          "codec": "ass",
+          "packets": 2,
+          "frames": 2
+        }
+      ]
+    },
+    {
+      "file": "media/dvdsub-sample.mkv",
+      "size": 1213,
+      "sha256": "66f2217556812259f24eccd1da92ac6fd963a48eea3906f98b54a2699016ea20",
+      "streams": [
+        {
+          "index": 0,
+          "type": "subtitle",
+          "codec": "dvd_subtitle",
+          "packets": 2,
+          "frames": 2
         }
       ]
     },
@@ -63,6 +91,20 @@
           "channels": 2,
           "packets": 24,
           "frames": 24
+        }
+      ]
+    },
+    {
+      "file": "media/subrip-sample.mkv",
+      "size": 541,
+      "sha256": "f5ea98298c3892948d55a7d47ebd0072d134ef32ae8ef4e954b9322d794e77e3",
+      "streams": [
+        {
+          "index": 0,
+          "type": "subtitle",
+          "codec": "subrip",
+          "packets": 2,
+          "frames": 2
         }
       ]
     }
